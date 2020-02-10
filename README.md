@@ -1,6 +1,6 @@
 # Project Plebiscite
 
-Do voters live near each other? Let's use the Census to learn more about voting behavior.
+Using the Census & neural nets to learn more about voting behavior.
 
 ## Description & Questions
 This is a project I completed as an undergraduate. I combined US Census data at the block level with individual entries in the voter file, and used regression and an MLP neural net to investigate two concepts:
