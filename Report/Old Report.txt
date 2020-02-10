@@ -1,0 +1,139 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{longtable}
+\usepackage{dcolumn}
+\usepackage{pdflscape}
+\usepackage[skip=1ex,bf]{caption}
+\usepackage[nottoc,numbib]{tocbibind}
+
+\geometry{left=1in,right=1in,top=1in,bottom=1in}
+
+\title{Data-Driven Alternatives to Survey Research}
+\author{David deLacoste-Azizi}
+\date{May 10, 2018}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+
+Politicians and academics alike have long struggled to perfect a system for predicting the participation of voters at an individual level. The implications for electoral politics are salient: political messages can be tailored to segments of the electorate more likely to actually cast ballots --- and mobilization efforts through direct voter contact or targeted advertising can be focused on constituents that might not otherwise turn out. Furthermore, voting is an essential component of democracy; understanding the factors that encourage people to participate (or not) is an important lens on the underlying institutions. That is, the citizenry's engagement with its government is revealing of that establishment.
+
+Survey research serves as a useful proxy for unadulterated measures of the electorate --- political polling presents a window into public opinion by means of statistical inference. However, this approach has inherent limitations. Connate disparities between the sampling frame and population of interest, whether arising from reliance on respondent self-identification of registration status or systemic, non-random non-response, engender bias in results. Weighting adjustment with auxiliary variables furnishes an imperfect recourse; the demographic or ideological distributions assumed to be ``true'' are typically statistical inferences in their own right. Meanwhile, likely-voter models developed from recent and historical election outcomes and time-series surveys are ill-equipped to compensate for shifts in prevalent views among the public or fluctuations in issue saliency.
+
+Furthermore, the decreasing trend in response rates for telephone-based random samples and the accelerating transition from listed landline numbers to unlisted mobile phones have inflated the cost of traditional polling, triggering a resultant movement toward internet-implemented panel surveys. Unfortunately, though such focus groups can inexpensively obtain large numbers of responses, the gulf between sampling frame and population is wider still and the results ever more variable.
+
+There are at least two paths forward. The first is the effective incorporation of alternative data sources, including the application of machine learning techniques and so-called ``Big Data.'' These alternative data sources are the focus of this paper. The second is the renovation and refinement of weighting adjustments, which will be imperative for the use of survey research in social science to continue reliably. Enhanced weighting is an area in need of further study; it is conveniently well-suited to the leveraging of techniques from the alternative data strategy.
+
+The use of alternative data sources approached the predictive modeling of voter behavior along a trajectory that is orthogonal to survey research. In stark contrast to the process of collecting information about a random sample drawn from a sampling frame that may differ from the population of interest --- where chance variation can yield significant divergence in representation compared to the population --- techniques which leverage reliable, publicly available data to match each individual in question with demographic, economic, and even personal information enable precision far exceeding that of statistical inference.
+
+In the age of public sharing enabled by social media, individual-level data is not exactly scarce; it is, however, closely guarded by the companies which collect it. As a result, such data is often expensive or otherwise inaccessible to both researchers and campaign professionals. The notable exception of the recent Facebook--Cambridge Analytica scandal has focused national attention on data mining from internet platforms. This strategy is a paradigmatic example of a data-based alternative to survey research: profile information on millions of individuals was combined with voter registration information to identify and target those individuals and their associates.
+ 
+However, data mining on that scale is a highly evolved process and is not universally accessible. While a significant amount of intelligence might be gleaned from public posts on social media sites, the pairing of other publicly available data with the voter file is less expensive and highly attainable. Reducing it to its most basic form, this operation involves pairing individual-level data from any novel source with a state voter file and using that information to target political advertisements, plan direct voter contact, inform campaign strategy, and predict voter behavior.
+
+This paper explores the methodology of alternative data techniques by evaluating the predictive power of the combination of the Philadelphia Voter File and block-level United States Census Bureau data against each of those sources considered individually. Under the assumption that humans are likely to self-sort into similar locations based on both observable and unobservable common characteristics, the expectation is that attaching demographic information from the decennial Census to the voter file boosts predictive power and accuracy in modeling voter turnout. 
+
+Using a probit model, information provided by voter registrations alone is highly effective in predicting the behavior of voters in Philadelphia, Pennsylvania. Census data is also highly effective when considered alone, yet the combination of both sources bears no practical improvement when compared to the individual measurements. These results are consistent with the assumption of assortative habitation.
+
+Using a multilayer perceptron-style artificial neural network, these results ???.
+
+\section{Theory and Previous Literature}
+
+
+
+\section{Data}
+
+The population of interest is individuals who are eligible to vote. In the models developed for this analysis, the universe is represented by registered voters. As a result of this simplification, non-contemporaneous inferences about the complete population are not valid unless corrected for distributional shifts in the population of registered voters.
+
+\subsection{Voter File}
+To evaluate these models, the population is constrained to eligible individuals in Philadelphia, Pennsylvania and represented by the Pennsylvania Department of State's Full Voter Export (FVE) for Philadelphia County. 
+
+From the 1,034,518 voters listed in the voter file as of July 2017, the models evaluated only 891,234. To eliminate outliers from missing or incorrect information, 52,403 entries labelled ``Inactive'' by the state are removed, as is one which was missing a birthdate and 372 with registration dates earlier than the associated birthdates. In order to ensure that the model only incorporates information available before the election took place on November 8, 2016, 20,160 registrations submitted after election day are dropped. Similarly, 70,285 registrations updated after that date are removed. Additionally, one voter who would have been underage for the election is not considered; nor are nine people with a common address that could not be placed to a real physical location within the city of Philadelphia.
+
+Table \ref{fvevariables} in the appendix is a list of the 153 original variables from the FVE. The models considered only 14 variables, including the dependent variable indicating participation in the 2016 general election. The variables were recoded or calculated as follows:
+\begin{description}
+\item [Age on Election Day in 2016:] the difference between the listed date of birth and November 8, 2016 in POSIX time units adjusted for leap intervals and converted to years; standardized to $\mu = 0$ and $\sigma = 1$.
+\item [Age when Registered to Vote:] the difference between the listed registration date and the listed date of birth in POSIX time units adjusted for leap intervals and converted to years; standardized to $\mu = 0$ and $\sigma = 1$.
+\item [Days Registered by Election Day:] the difference between November 8, 2016 and the listed registration date in POSIX time units converted to days; standardized to $\mu = 0$ and $\sigma = 1$.
+\item [Days Between Last Update and E-Day:] the difference between November 8, 2016 and the listed date of last update in POSIX time units converted to days; standardized to $\mu = 0$ and $\sigma = 1$.
+\item [Participation in General Elections:] the proportion calculated from the number of the last six general elections in which a voter participated over the number for which that voter was registered.
+\item [Registered as Female:] an indicator for a registration with sex recorded as female.
+\item [Registered as Male:] an indicator for a registration with sex recorded as male.
+\item [Registered as Democrat:] an indicator for a registration with party recorded as Democratic.
+\item [Registered as Republican:] an indicator for a registration with party recorded as Republican.
+\item [Registered as Independent:] an indicator for a registration with party recorded as Independent.
+\item [Phone Number in Registration:] an indicator for a registration with any non-missing value recorded for the phone number.
+\item [Phone Number Validated:] an indicator for a registration with a phone number including a valid area code for the United States under the North American Numbering Plan.
+\item [Out of State Area Code:] an indicator for a registration with a phone number including an area code that is not assigned to numbers within Pennsylvania.
+\item [Out of City Area Code:] an indicator for a registration with a phone number including an area code that is not assigned to numbers within Philadelphia.
+\end{description}
+
+Descriptive statistics for these variables can be found in Table \ref{fvestats} in the appendix; additionally, Table \ref{fveunscaledstats} includes descriptive statistics for the continuous variables before scaling and centering operations were used to standardize them.
+
+Census data on the addresses included in each block was used to match each voter to the appropriate block.
+
+\subsection{Decennial Census}
+The 2010 Decennial Census Summary File 1 contains information for 18,872 blocks ascribed to Philadelphia County (though only 14,871 unique blocks appear in the voter file as some blocks are nonresidential). A large number of tables containing counts of individuals in each block subset into specific demographies is available; the models in this technique evaluated just 65 separate variables from seven tables:
+\begin{description}
+\item [Average Household Size:] the average household size for each block was reported directly.
+\item [Average Family Size:] the average family size for each block was reported directly.
+\item [Race:] for each variable within the Race table, the count of individuals per demographic segment was divided by the total number of individuals in the block to create a proportion for comparison to other blocks.
+\item [Age by Sex:] for each variable within the Age by Sex table, the count of individuals per demographic segment was divided by the total number of individuals in the block to create a proportion for comparison to other blocks.
+\item [Household Type:] for each variable within the Household Type table, the count of individuals per demographic segment was divided by the total number of individuals in the block to create a proportion for comparison to other blocks.
+\item [Occupancy Status:] for each variable within the Occupancy Status table, the count of housing units of each type was divided by the total number of housing units in the block to create a proportion for comparison to other blocks.
+\item [Tenure:] for each variable within the Tenure table, the count of housing units of each type was divided by the total number of housing units in the block to create a proportion for comparison to other blocks.
+\end{description}
+
+Descriptive statistics for all of the variables derived from these tables can be found in Table \ref{censusstats} in the appendix.
+
+
+\section{Hypotheses and Empirical Tests}
+The expectation is that attaching demographic information from the decennial Census to the voter file boosts predictive power and accuracy in modeling voter turnout. This will be tested across two techniques: probit regressions and artificial neural networks.
+
+Three models are developed with each technique. The first considers only the effects of variables from the voter file on individual participation in the 2016 general election. The second considers only the effects of demographic information from the Census on individual participation in the 2016 general election. The third considers the effects of variables from both sources.
+
+To build and evaluate these models, the data is split by random assignment into a set of training data and test data; the assignment is under a distribution that apportions approximately $\frac{2}{3}$ of the responses to the training group and $\frac{1}{3}$ to the test group. The probit regression and artificial neural network are fit over the training data for each of the three models.
+
+The resulting models is assessed by developing predictions on the test data; these predictions are compared to the true values to determine each model's precision, recall, accuracy, sensitivity, and F-score.
+
+The accuracy of the models includes a 95\% confidence interval that is used to assess the probability of a difference in their means using a traditional hypothesis test. The associated null hypothesis is no difference in accuracy between the models, while the alternative hypothesis is a difference. The rejection level ($\alpha$) is $0.05$.
+
+\section{Results}
+
+
+\section{Discussion and Conclusion}
+
+- Might be interesting to develop an individual-level predictive model from a traditional survey-based likely-voter model and evaluate the accuracy of that against each of these.
+
+\clearpage
+\appendix
+\section{Appendix}
+
+\input{fvevariables}
+
+\clearpage
+\input{fvestats}
+
+\input{fveunscaledstats}
+
+\clearpage
+\input{censusstats}
+
+\clearpage
+\input{glm}
+
+\clearpage
+\begin{landscape}
+\input{modeval}
+\end{landscape}
+
+\clearpage
+\bibliographystyle{apsa-leeper}
+\bibliography{Report}
+
+\end{document}
