@@ -15,9 +15,9 @@ I chose to use Philadelphia for the simple reason that I had lived there for 22 
 ## Outcomes
 My conclusions were that we can better predict whether an individual voted in the 2016 election by incorporating block-level demographic data (slightly better with a logistic regression, much better with a neural net). This suggested to me that people behave similarly to their neighbors, but it was beyond the scope (and deadline!) of the project to do an additional analysis. At the very least, we can predict individual behavior using aggregate data.
 
-[Read the full report here.](Report/Report.pdf)
+[Read the full report here.](_report/Report.pdf)
 
 ## Replicability
-This is seriously amateur code, before I had read & adopted a style guide. Replicate at your own risk -- but be warned, this repository includes none of the raw data in .csv or .shp formats. (There are two reasons: one, they're too large for GitHub; two, I'm not sure I'm allowed to repost them.) You may be able to use some of the .Rdata objects instead, but I can't promise everything is included. 
+This is seriously amateur code, before I had read & adopted a style guide. Replicate at your own risk -- but be warned, this repository includes none of the raw data in .csv or .shp formats. You may download some of the additional data [here](https://upenn.box.com/v/project-plebiscite), but the voter file is not included. Some of the .Rdata objects may work in its place, but I can't say I've maintained this code.
 
 If you have any questions, or if it is somehow important for you to replicate this project, please don't hesitate to reach out.
