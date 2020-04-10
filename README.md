@@ -23,5 +23,3 @@ My conclusions were that we can better predict whether an individual voted in th
 This is seriously amateur code, before I had read & adopted a style guide. Replicate at your own risk -- but be warned, this repository includes none of the raw data in `.csv` or `.shp` formats. You may download some of the additional data [at this link](https://upenn.box.com/v/project-plebiscite), but the voter file is not included. Some of the .Rdata objects may work in its place, but I can't say I've maintained this code.
 
 If you have any questions, or if it is somehow important for you to replicate this project, please don't hesitate to reach out.
-
-<p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/101237072ns.gif" /></p>
