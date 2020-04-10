@@ -2,7 +2,7 @@ library(tidyverse)
 library(tidycensus)
 library(data.table)
 
-census_api_key("a6f49f797cf1642372ffba8d788bffc4693f75d8")
+census_api_key("****************************************")
 sf1var <- load_variables(year = 2010, dataset = "sf1", cache = TRUE)
 
 ##### Race #####
