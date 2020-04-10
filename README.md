@@ -1,5 +1,4 @@
 # Project Plebiscite
-
 Using the Census & neural nets to learn more about voting behavior.
 
 [Click here for the GitHub repo.](https://github.com/UnlikelyVolcano/project-plebiscite)
